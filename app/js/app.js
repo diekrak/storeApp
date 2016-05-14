@@ -48,12 +48,5 @@ App.constant('ENDPOINT_URI', 'http://0.0.0.0:3009/api/')
 
         $httpProvider.interceptors.push('APIInterceptor');
     })
-    .constant('weblogngConfig', {
-        apiKey: '48548598-f079-4c57-bb39-d9ca8344abd7',
-        options: {
-            publishNavigationTimingMetrics: true,
-            publishUserActive: true,
-            application: 'simple-rest-website'
-        }
-    })
+     
     ;

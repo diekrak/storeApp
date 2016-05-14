@@ -8,7 +8,6 @@ appServices.service('APIInterceptor', function($rootScope, UserService) {
         service.request = function(config) {
             var currentUser = UserService.getCurrentUser(),
                 access_token = currentUser ? currentUser.access_token : null;
-            console.log("Current user: ", currentUser);
             if (access_token) {
                 config.headers.authorization = access_token;
             }
@@ -54,8 +53,6 @@ appServices.service('APIInterceptor', function($rootScope, UserService) {
         }
 
         service.login = function(credentials) {
-
-            console.log("Credenciales ",credentials);
             return $http.post(getLogUrl('login'), credentials);
         };
 
@@ -64,7 +61,6 @@ appServices.service('APIInterceptor', function($rootScope, UserService) {
         };
 
         service.register = function(user) {
-            console.log("register ", user);
             return $http.post(getUrl(), user);
         };
 
@@ -99,7 +95,6 @@ appServices.service('APIInterceptor', function($rootScope, UserService) {
         };
 
         service.create = function (item) {
-            console.log("Produtc " ,item);
             return $http.post(getUrl(), item);
         };
 
@@ -111,7 +106,6 @@ appServices.service('APIInterceptor', function($rootScope, UserService) {
             return $http.delete(getUrlForId(itemId));
         };
     })
-
 
 
     .service('OrderAdmin', function ($http) {
@@ -183,11 +177,6 @@ appServices.service('APIInterceptor', function($rootScope, UserService) {
         delivery.options = delivery.all;
     })
 
-
-
-
-
-
     .service('DeliveryService', function ($http) {
         var service = this,
             path = 'items/',
@@ -197,18 +186,15 @@ appServices.service('APIInterceptor', function($rootScope, UserService) {
 
 
         service.createOrder = function (order) {
-            console.log("Crear orden en delivery: " ,order);
             return $http.post(apiOrder, order);
         };
 
         service.updateOrder = function (order) {
-            console.log("Update orden en delivery: " ,order);
             return $http.put(apiOrder, order);
         };
 
 
         service.getOrderByCostumer = function (costumer) {
-            console.log("CONSUMER", costumer);
             return $http.get(apiOrder + "?filter={\"where\": {\"costumerId\":"+ costumer.userId +" }}");
         };
 

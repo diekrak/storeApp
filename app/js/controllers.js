@@ -6,7 +6,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
         function signIn(user) {
             LoginService.login(user)
                 .then(function(response) {
-                    console.log("ACCEDIO ", response);
                     if (response.status == 401)
                     {
                         $state.go('login');
@@ -23,7 +22,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
         function signInAndRegister(user) {
             LoginService.login(user)
                 .then(function(response) {
-                    console.log("Access Por new register", response);
                     if (response.status == 401)
                     {
                         $state.go('login');
@@ -46,7 +44,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
         }
 
         function submit(user) {
-            console.log("Summit");
             signIn(user);
         }
 
@@ -239,13 +236,9 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
             OrderAdmin.all()
                 .then(function (result) {
                     orders.items = result.data;
-                    console.log("ITems entoncrados ", orders.items);
                     orders.items.forEach(function(item) {
                         item.estado = orders.options[item.orderStatusId - 1].name;
-                        console.log("ESTA ES: ",item);
                     });
-
-                    console.log("ADMIN GOTTEN ", orders.items );
                 });
         }
 
@@ -259,7 +252,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
 
         function updateItem(item) {
             item.orderStatusId = orders.selectedOption.id;
-            console.log("UPDATE ",item);
             OrderAdmin.update(item.id, item)
                 .then(function (result) {
                     //Update DeliveryService
@@ -302,7 +294,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
             DeliveryStatus.all()
                 .then(function (result) {
                     orders.options = result.data;
-                    console.log("opciones status ",orders.options);
                 });
         }
 
@@ -323,8 +314,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
     })
 
 
-
-
     .controller('DeliveryCtr', function(DeliveryService, UserService){
         var orders = this;
 
@@ -332,10 +321,8 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
             currentUser = UserService.getCurrentUser();
             DeliveryService.getOrderByCostumer(currentUser)
                 .then(function (result) {
-                    console.log("ITEMS " , result);
                     orders.items = result.data;
                     getLocations();
-                    console.log("ITEMS2 " , orders.items);
                 });
         }
 
@@ -343,8 +330,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
             DeliveryService.allLocations()
                 .then(function (result) {
                     orders.locations = result.data;
-                    console.log("Locaciones ",orders.locations);
-
                     orders.items.forEach(function(item) {
                         item.location = orders.locations[item.locationId - 1].place;
                         item.deliveryManId  = "Felipe";

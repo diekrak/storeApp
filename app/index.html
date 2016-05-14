@@ -5,12 +5,12 @@
 </head>
 <body  class="container" ng-controller="MainCtrl as main" ng-cloak>
 <div >
-<table>
-    <tr>
-        <td >
+<table width="100%">
+    <tr >
+        <td width="90%">
             <div><h1 >Mi Tienda Amiga</h1></div>
         </td>
-        <td width="20%">
+        <td  ">
             <div><button ng-if="main.currentUser" class="btn btn-default navbar-btn"
                          ng-click="main.logout()">Salir <strong>{{main.currentUser.email}}</strong></button></div>
         </td>
