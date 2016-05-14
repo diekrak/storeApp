@@ -1,0 +1,41 @@
+
+<div >
+    <div class="col-sm-4">
+        <div class="portal col">
+            <div class="item" ng-repeat="item in dashboard.items"
+                 ng-click="dashboard.setEditedItem(item)"
+                 ng-class="{'active':dashboard.isCurrentItem(item.id)}">
+                <h4>Orden #: {{item.id}}</h4>
+                <h4>Fecha: {{item.dateIn}}</h4>
+                <p><strong>Estado: {{item.estado}}</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+
+        <!-- EDITING -->
+        <div ng-if="dashboard.isEditing" class="col-xs-12">
+            <h4>Editar {{dashboard.editedItem.name}}</h4>
+            <hr/>
+            <form class="edit-form" role="form"
+                  ng-submit="dashboard.updateItem(dashboard.editedItem)" novalidate>
+                <div class="form-group">
+                    <label>Orden # {{dashboard.editedItem.id}}</label>
+                </div>
+                <div class="form-group">
+                    <label>Fecha {{dashboard.editedItem.dateIn}}</label>
+                </div>
+                <div class="form-group">
+                    <label>Estado del pedido</label>
+                    <select data-ng-options="o.name for o in dashboard.options" data-ng-model="dashboard.selectedOption"></select>
+                </div>
+                <button type="submit" class="btn btn-info btn-lg">Guardar</button>
+                <button type="button" class="btn btn-default btn-lg pull-right"
+                        ng-click="dashboard.cancelEditing()">Cancelar
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,39 @@
+
+<div >
+    <div class="col-sm-4">
+        <div class="portal col">
+            <div class="item" ng-repeat="item in dashboard.items"
+                 ng-click="dashboard.setEditedItem(item)"
+                 ng-class="{'active':dashboard.isCurrentItem(item.id)}">
+                <h4>Orden #: {{item.id}}</h4>
+                <h4>Repartidor: {{item.deliveryManId}}</h4>
+                <p><strong>Ubicación: {{item.location}}</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+
+        <!-- EDITING -->
+        <div ng-if="dashboard.isEditing" class="col-xs-5">
+            <h4>Detalles del estado {{dashboard.editedItem.name}}</h4>
+            <hr/>
+            <form class="edit-form" role="form" novalidate>
+                <div class="form-group">
+                    <label>Orden # {{dashboard.editedItem.id}}</label>
+                </div>
+                <div class="form-group">
+                    <label>Repartidor: {{dashboard.editedItem.deliveryManId}}</label>
+                </div>
+                <div>
+                    <strong>Ubicación: {{dashboard.editedItem.location}}</strong>
+                </div>
+            </form>
+        </div>
+        <div ng-if="dashboard.isEditing" class="col-xs-5">
+            <img ng-if="dashboard.editedItem.locationId==1" src="images/alistarPedido.jpg" width="400px" height="300px">
+            <img ng-if="dashboard.editedItem.locationId==2" src="images/delivery.jpg" width="400px" height="300px">
+            <img ng-if="dashboard.editedItem.locationId==3" src="images/entrega.jpg" width="400px" height="300px">
+        </div>
+    </div>
+
+</div>
