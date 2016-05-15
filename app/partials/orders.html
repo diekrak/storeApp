@@ -1,4 +1,3 @@
-
 <div ng-if="dashboard.currentOrder!=null">
     <div class="col-sm-4">
         <div class="portal col">
@@ -26,7 +25,7 @@
                            ng-model="dashboard.newItem.name"
                            placeholder="Enter name">
                 </div>
-                <button type="submit" class="btn btn-info btn-lg">Crear</button>
+                <button type="submit" class="btn btn-info btn-lg">Agregar</button>
             </form>
         </div>
         <!-- EDITING -->
@@ -50,17 +49,17 @@
         <div>
             <form class="edit-form" role="form"
                   ng-submit="dashboard.endOrder()" novalidate>
-                <button type="submit" class="btn btn-info btn-lg">Finalizar Pedido</button>
+                <button type="submit" class="btn btn-info btn-lg">Realizar Pedido</button>
             </form>
         </div>
     </div>
 
 </div>
-<div ng-if="dashboard.currentOrder==null">
-    <h4>Actualmente no tiene ningun predido en proceso. Presione crear nuevo pedido para inciar.</h4>
-    <form class="edit-form" role="form"
-          ng-submit="dashboard.createOrder()" novalidate>
-        <button type="submit" class="btn btn-info btn-lg">Iniciar su pedido</button>
-    </form>
-
+<div ng-if="dashboard.currentOrder==null" >
+    <div class="col-sm-12" > <h4>Actualmente no tiene ningun predido en proceso. Presione crear nuevo pedido para inciar.</h4>
+        <form class="edit-form" role="form"
+              ng-submit="dashboard.createOrder()" novalidate ">
+            <button type="submit" class="btn btn-info btn-lg">Iniciar su pedido</button>
+        </form>
+    </div>
 </div>

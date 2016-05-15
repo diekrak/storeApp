@@ -82,19 +82,15 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
         var orders = this;
 
         function getItems() {
-
-            console.log("Se trae los items ", orders.currentOrder);
             OrderModel.allByOrder(orders.currentOrder.id)
                 .then(function (result) {
                     orders.items = result.data;
-                    console.log("ITEMS detalle ", orders.items );
                 });
         }
 
         function createItem(item) {
             item.id=Math.floor((Math.random() * 10000000) + 1);
             item.orderId = orders.currentOrder.id;
-            console.log("Itema crear ", item);
             //item.measure = "asd";
             OrderModel.create(item)
                 .then(function (result) {
@@ -120,30 +116,24 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
         }
 
         function initCreateForm() {
-            console.log("INICIALIZAR FORM ", orders.currentOrder);
 
             //select si hay una order en curso (estado 1)
             if (orders.currentOrder == undefined)
             {
-                console.log("NO hay ordenes en memoria");
                 //Buscar en BD
                 orders.currentUser = UserService.getCurrentUser();
                 ordStatusBegin = DeliveryStatus.getUserCreateStatusId();
                 orderTmp = {orderStatusId : ordStatusBegin, costumerId: orders.currentUser.userId };
-                console.log("ORDER TMP:",orderTmp );
                 OrderAdmin.findOne(orderTmp)
                     .then(function (result) {
                         orders.currentOrder = null;
                         if (result.statusText=="OK")
                         {
                             orders.currentOrder = result.data;
-                            console.log("De BD esta: " , orders.currentOrder);
                             getItems();
                         }
                     });
             }
-
-            console.log("ACA esta : " , orders.currentOrder);
             orders.newItem = { name: '', description: '' };
         }
 
@@ -172,7 +162,6 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
                         console.log("total ",result );
                         total = result.data.count + 1;
                         orderTmp = {id:total ,dateIn: new Date() ,storeId:1 , orderStatusId : ordStatusBegin, costumerId: orders.currentUser.userId };
-                        console.log("ORDER TMP:",orderTmp );
                         //crear uno nuevo
                         OrderAdmin.create(orderTmp)
                             .then(function (result){
@@ -180,26 +169,20 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
                                     if (result.statusText=="OK")
                                     {
                                         orders.currentOrder = result.data;
-                                        console.log("Se creo en DB: " , orders.currentOrder);
-
                                         //Crear orden en serivicio de delivery
                                         deliveryOrder = {id: orders.currentOrder.id , locationId: 1, deliveryManId: 101, costumerId: orders.currentOrder.costumerId};
                                         DeliveryService.createOrder(deliveryOrder);
                                     }
-                                    console.log("intento crearla");
                                 }
                             );
                     }
                 );
-            console.log("ORDER created" ,orders.currentOrder)
         }
 
         function endOrder() {
             orders.currentOrder.orderStatusId = DeliveryStatus.getUserReadyStatusId();
             OrderAdmin.update(orders.currentOrder.id,orders.currentOrder)
                 .then(function (result){
-                    console.log("INTENTO UPD: ",result);
-
                     deliveryOrder = {id: orders.currentOrder.id , locationId: 2};
                     DeliveryService.updateOrder(deliveryOrder);
                     orders.currentOrder = null;
@@ -229,7 +212,7 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
 
 
 
-    .controller('AdminOrdersCtr', function(OrderAdmin, DeliveryStatus, DeliveryService){
+    .controller('AdminOrdersCtr', function(OrderAdmin, DeliveryStatus, DeliveryService, OrderModel){
         var orders = this;
 
         function getItems() {
@@ -278,6 +261,9 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
         function setEditedItem(item) {
             orders.editedItem = angular.copy(item);
             orders.selectedOption = orders.options[(item.orderStatusId - 1 )];
+            OrderModel.allByOrder(item.id).then(function(result){
+                orders.products = result.data;
+            });
             orders.isEditing = true;
         }
 
@@ -297,6 +283,7 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
                 });
         }
 
+        orders.products = [];
         orders.items = [];
         orders.editedItem = null;
         orders.isEditing = false;
@@ -314,7 +301,7 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
     })
 
 
-    .controller('DeliveryCtr', function(DeliveryService, UserService){
+    .controller('DeliveryCtr', function(DeliveryService, UserService, OrderModel){
         var orders = this;
 
         function getItems() {
@@ -343,6 +330,9 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
 
         function setEditedItem(item) {
             orders.editedItem = angular.copy(item);
+            OrderModel.allByOrder(item.id).then(function(result){
+                orders.products = result.data;
+            });
             orders.isEditing = true;
         }
 
@@ -354,7 +344,7 @@ appControllers.controller('LoginCtrl', function($rootScope, $state, LoginService
             orders.editedItem = null;
             orders.isEditing = false;
         }
-
+        orders.products = [];
         orders.items = [];
         orders.editedItem = null;
         orders.isEditing = false;

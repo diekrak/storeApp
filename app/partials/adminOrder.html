@@ -6,7 +6,7 @@
                  ng-click="dashboard.setEditedItem(item)"
                  ng-class="{'active':dashboard.isCurrentItem(item.id)}">
                 <h4>Orden #: {{item.id}}</h4>
-                <h4>Fecha: {{item.dateIn}}</h4>
+                <h4>Fecha: {{item.dateIn  | date:'yyyy-MM-dd HH:mm:ss'}}</h4>
                 <p><strong>Estado: {{item.estado}}</strong></p>
             </div>
         </div>
@@ -23,7 +23,7 @@
                     <label>Orden # {{dashboard.editedItem.id}}</label>
                 </div>
                 <div class="form-group">
-                    <label>Fecha {{dashboard.editedItem.dateIn}}</label>
+                    <label>Fecha {{dashboard.editedItem.dateIn  | date:'yyyy-MM-dd HH:mm:ss' }}  </label>
                 </div>
                 <div class="form-group">
                     <label>Estado del pedido</label>
@@ -34,7 +34,21 @@
                         ng-click="dashboard.cancelEditing()">Cancelar
                 </button>
             </form>
+            <div >
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Producto</th>
+                    </tr>
+                    <tr ng-repeat="x in dashboard.products">
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ x.name }}</td>
+                    </tr>
+                </table>
+
+            </div>
         </div>
+
 
     </div>
 

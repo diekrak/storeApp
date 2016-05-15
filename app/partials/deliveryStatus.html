@@ -29,11 +29,27 @@
                 </div>
             </form>
         </div>
-        <div ng-if="dashboard.isEditing" class="col-xs-5">
-            <img ng-if="dashboard.editedItem.locationId==1" src="images/alistarPedido.jpg" width="400px" height="300px">
-            <img ng-if="dashboard.editedItem.locationId==2" src="images/delivery.jpg" width="400px" height="300px">
-            <img ng-if="dashboard.editedItem.locationId==3" src="images/entrega.jpg" width="400px" height="300px">
+        <div ng-if="dashboard.isEditing" class="col-xs-5" >
+            <img ng-if="dashboard.editedItem.locationId==1" src="images/alistarPedido.jpg" width="300px" height="200px">
+            <img ng-if="dashboard.editedItem.locationId==2" src="images/delivery.jpg" width="300px" height="200px">
+            <img ng-if="dashboard.editedItem.locationId==3" src="images/entrega.jpg" width="300px" height="200px">
         </div>
+
+        <div ng-if="dashboard.isEditing">
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Producto</th>
+                </tr>
+                <tr ng-repeat="x in dashboard.products">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ x.name }}</td>
+                </tr>
+            </table>
+
+        </div>
+
     </div>
+
 
 </div>
